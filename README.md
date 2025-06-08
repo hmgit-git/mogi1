@@ -17,7 +17,7 @@ Docker Build
 3. MySQL 8.0
 
 ## URL
-・アプリケーション：http://localhost/ ・phpMyAdmin：http//localhost.8080/
+・アプリケーション：http://localhost/ ・phpMyAdmin：http//localhost.8080/　・mailhog：http://localhost:8025/
 
 ## ER図
 
