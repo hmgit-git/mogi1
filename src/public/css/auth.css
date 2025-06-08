@@ -1,0 +1,87 @@
+/* 全体レイアウト */
+body {
+    margin: 0;
+    background-color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ヘッダー */
+header {
+    background-color: #000;
+    padding: 10px 20px;
+}
+
+header img {
+    height: 40px;
+}
+
+/* メインコンテンツ */
+main {
+    padding: 40px 20px;
+}
+
+/* フォーム共通レイアウト */
+.auth-form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.auth-form-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.auth-form-container label {
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.auth-form-container input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 登録・ログインボタン */
+.auth-form-container button {
+    background-color: #e63946;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.auth-form-container .link-text .link-text__a {
+    color: #00aaff;
+    text-decoration: none;
+}
+
+/* リンク部分 */
+.auth-form-container .link-text {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.auth-form-container .link-text a {
+    color: #333;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+/* エラーメッセージ */
+.error-message {
+    color: red;
+    font-size: 14px;
+}
