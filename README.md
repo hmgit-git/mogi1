@@ -9,6 +9,7 @@ Docker Build
 5. laravelのインストール composer install
 6. アプリケーションキーを作成 php artisan key:generate
 7. DBのテーブルを作成 php artisan migrate
+8. mailhogのインストール　docker-compose.ymlにmailhog追記
 
 ## 使用技術(実行環境)
 1. PHP 8.0
