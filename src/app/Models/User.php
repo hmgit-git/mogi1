@@ -42,4 +42,12 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function likes()
+    {
+        return $this->belongsToMany(Item::class, 'likes');
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

@@ -1,0 +1,8 @@
+{
+    "require-dev": {
+        "laravel/sail": "^1.43"
+    },
+    "require": {
+        "laravel/fortify": "^1.14.0"
+    }
+}

@@ -3,29 +3,22 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
-    public function store(Request $request)
+    public function store(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ], [
-            'email.required' => 'メールアドレスを入力してください',
-            'email.email' => '正しいメールアドレス形式で入力してください',
-            'password.required' => 'パスワードを入力してください',
-        ]);
+        $credentials = $request->validated();
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/items'); // ★ログイン後に /items へ
+            return redirect()->intended('/items?tab=mylist'); // ★ここを修正！
         }
 
         return back()->withErrors([
-            'email' => '認証に失敗しました。メールアドレスまたはパスワードをご確認ください。',
+            'email' => 'ログイン情報が登録されていません。',
         ])->onlyInput('email');
     }
 }

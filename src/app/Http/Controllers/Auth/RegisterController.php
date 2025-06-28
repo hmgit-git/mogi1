@@ -17,18 +17,21 @@ class RegisterController extends Controller
 
     public function store(RegisterRequest $request)
     {
-        // 登録処理
-        User::create([
+        // 登録処理して、$user に代入！
+        $user = User::create([
             'username' => $request->username,
             'name' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'email_verified_at' => Carbon::now(), // ← 本番ではここだけ削除！
         ]);
 
-        // ログイン状態にしてリダイレクト
-        auth()->attempt($request->only('email', 'password'));
+        // ログイン状態にして
+        auth()->login($user);
 
+        // 認証メールを送信！
+        $user->sendEmailVerificationNotification();
+
+        // 編集画面へリダイレクト！
         return redirect('/profile/edit');
     }
 }

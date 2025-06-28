@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-
+use Laravel\Fortify\Contracts\LogoutResponse;
+use App\Http\Responses\LogoutResponse as CustomLogoutResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -22,7 +22,8 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // ✅ ここでカスタムLogoutResponseを登録！
+        $this->app->singleton(LogoutResponse::class, CustomLogoutResponse::class);
     }
 
     /**
@@ -34,17 +35,17 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.login'); // ログイン画面の表示
         });
 
-
         Fortify::registerView(function () {
             return view('auth.register');
         });
+
         app()->singleton(
             \Laravel\Fortify\Contracts\LoginResponse::class,
             function () {
                 return new class implements \Laravel\Fortify\Contracts\LoginResponse {
                     public function toResponse($request)
                     {
-                        return redirect('/items');
+                        return redirect('/?tab=mylist');
                     }
                 };
             }
