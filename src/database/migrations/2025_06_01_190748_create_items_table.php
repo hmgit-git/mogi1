@@ -10,14 +10,14 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // 出品者
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->text('description');
             $table->string('brand')->nullable();
             $table->integer('price');
-            $table->string('image_path'); // 商品画像
-            $table->enum('status', ['new', 'used']); // 商品の状態
-            $table->boolean('is_sold')->default(false); // 売れたかどうか
+            $table->string('image_path')->nullable();
+            $table->string('condition');
+            $table->boolean('is_sold')->default(false);
             $table->timestamps();
         });
     }

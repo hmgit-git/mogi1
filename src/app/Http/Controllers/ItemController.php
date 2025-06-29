@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
+use App\Models\Category;
+use App\Http\Requests\ItemStoreRequest;
 
 class ItemController extends Controller
 {
@@ -65,5 +67,38 @@ class ItemController extends Controller
         }
 
         return back();
+    }
+    public function create()
+    {
+        $categories = Category::all();
+        $conditions = ['新品', '未使用に近い', '目立った傷や汚れなし', 'やや傷や汚れあり', '全体的に状態が悪い'];
+
+        return view('items.create', compact('categories', 'conditions'));
+    }
+
+    public function store(ItemStoreRequest $request)
+    {
+        // 画像アップロード（任意）
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('public/items');
+            $imagePath = str_replace('public/', 'storage/', $path);
+        }
+
+        // 商品登録
+        $item = Item::create([
+            'user_id' => Auth::id(),
+            'name' => $request->name,
+            'brand' => $request->brand,
+            'description' => $request->description,
+            'condition' => $request->condition,
+            'price' => $request->price,
+            'image_path' => $imagePath,
+        ]);
+
+        // 中間テーブルへカテゴリー登録
+        $item->categories()->attach($request->categories);
+
+        return redirect()->route('items.index')->with('message', '商品を出品しました！');
     }
 }

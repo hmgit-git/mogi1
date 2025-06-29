@@ -36,7 +36,7 @@
 
 <!-- 購入ボタン -->
 <div style="margin-top: 20px;">
-    <a href="{{ route('purchase', ['item' => $item->id]) }}">
+    <a href="{{ route('purchase.show', ['item' => $item->id]) }}">
         <button>
             購入手続きへ
         </button>
@@ -78,7 +78,6 @@
 <p>※コメント投稿にはログインが必要です。</p>
 @endif
 
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const likeButton = document.getElementById('like-button');
@@ -96,17 +95,27 @@
                         'Accept': 'application/json',
                     },
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            // 未ログインならログインページへ
+                            window.location.href = '/login';
+                        } else {
+                            throw new Error('予期しないエラー');
+                        }
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    // ⭐アイコンの色だけ変更（テキストは変更しない）
                     icon.textContent = data.liked ? '★' : '☆';
                     count.textContent = `${data.likes_count}`;
-
+                })
+                .catch(error => {
+                    console.error('エラー:', error);
+                    alert('通信エラーが発生しました');
                 });
         });
     });
 </script>
-
-
 
 @endsection

@@ -4,41 +4,49 @@
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 @endsection
 
+
 @section('content')
 <div class="profile-container">
     <h2>プロフィール設定</h2>
 
-    <form method="POST" action="#" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" novalidate>
         @csrf
 
         <div class="profile-image-section">
             <div class="image-preview">
-                <img src="{{ Auth::user()->profile_image ?? asset('img/default.png') }}" alt="プロフィール画像">
+                <img src="{{ asset($user->profile_image ?? 'storage/AdobeStock_508578170.jpeg') }}" alt="プロフィール画像">
             </div>
-
-            <label class="upload-button" for="profile_image">画像を選択する</label>
-            <input type="file" name="profile_image" id="profile_image" class="file-input-hidden">
-        </div>
-
-
-        <div class="form-group">
-            <label for="username">ユーザー名</label>
-            <input type="text" name="username" id="username" value="{{ old('username', Auth::user()->username) }}">
+            <label class="upload-button">
+                画像を選択する
+                <input type="file" name="profile_image" class="file-input-hidden">
+            </label>
         </div>
 
         <div class="form-group">
-            <label for="zip">郵便番号</label>
-            <input type="text" name="zip" id="zip" value="{{ old('zip', Auth::user()->zip) }}">
+            <label>ユーザー名</label>
+            <input type="text" name="username" value="{{ old('username', $user->username) }}">
         </div>
 
         <div class="form-group">
-            <label for="address">住所</label>
-            <input type="text" name="address" id="address" value="{{ old('address', Auth::user()->address) }}">
+            <label>郵便番号</label>
+            <input type="text" name="zip" value="{{ old('zip', $user->zip) }}">
+            @error('zip')
+            <div style="color: red;">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
-            <label for="building">建物名</label>
-            <input type="text" name="building" id="building" value="{{ old('building', Auth::user()->building) }}">
+            <label>住所</label>
+            <input type="text" name="address" value="{{ old('address', $user->address) }}">
+            @error('address')
+            <div style="color: red;">{{ $message }}</div>
+            @enderror
+
+        </div>
+
+        <div class="form-group">
+            <label>建物名</label>
+            <input type="text" name="building" value="{{ old('building', $user->building) }}">
         </div>
 
         <button type="submit" class="submit-button">更新する</button>

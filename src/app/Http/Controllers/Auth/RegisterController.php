@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Carbon;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -17,21 +17,20 @@ class RegisterController extends Controller
 
     public function store(RegisterRequest $request)
     {
-        // 登録処理して、$user に代入！
         $user = User::create([
             'username' => $request->username,
             'name' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            // email_verified_at は入れない！本番仕様に
         ]);
 
-        // ログイン状態にして
+        // ログイン状態にする
         auth()->login($user);
 
         // 認証メールを送信！
-        $user->sendEmailVerificationNotification();
+        event(new Registered($user));
 
-        // 編集画面へリダイレクト！
-        return redirect('/profile/edit');
+        return redirect()->route('mypage.profile');
     }
 }

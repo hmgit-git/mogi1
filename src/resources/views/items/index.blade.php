@@ -11,15 +11,17 @@
 
 <div class="item-list">
     @foreach ($items as $item)
-    <div class="item-card">
-        <a href="{{ route('items.show', $item->id) }}" style="text-decoration: none; color: inherit;">
-            <img src="{{ $item->image_path }}" alt="{{ $item->name }}" width="150">
-            <h3>{{ $item->name }}</h3>
+    <a href="{{ route('items.show', $item->id) }}" class="item-link">
+        <div class="item-card">
+            <img src="{{ $item->image_path }}" alt="{{ $item->name }}">
+            <p>{{ $item->name }}</p>
+            <p>¥{{ number_format($item->price) }}</p>
+
             @if ($item->is_sold)
-            <span style="color: red; font-weight: bold;">Sold</span>
+            <span class="sold-badge">sold</span>
             @endif
-        </a>
-    </div>
+        </div>
+    </a>
     @endforeach
 </div>
 @endsection
