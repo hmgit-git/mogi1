@@ -1,248 +1,139 @@
+/* タブ切り替え */
 .tab-buttons {
     display: flex;
-    gap: 20px;
+    gap: 32px;
+    margin-top: 30px;
     margin-bottom: 10px;
     padding-left: 20px;
-    margin-top: 30px;
+    max-width: 1512px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .tab-buttons a {
     text-decoration: none;
     font-size: 18px;
     color: #888;
-    /* デフォルトはグレー */
     transition: color 0.3s ease;
 }
 
 .tab-buttons a.active {
     color: #e60033;
-    /* おしゃれな赤（JISの紅色） */
     font-weight: bold;
 }
 
 .tab-divider {
     border: none;
     border-top: 1px solid #ccc;
-    margin: 0 20px 30px;
+    margin: 0 auto 30px;
+    max-width: 1512px;
 }
 
-/*一覧*/
+/* タイトル */
+.item-list-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 20px;
+    max-width: 1512px;
+    margin: 0 auto 24px;
+}
+
+/* 商品一覧全体 */
 .item-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 0 20px;
+    grid-template-columns: repeat(4, 1fr);
+    width: 1374.52px;
+    height: 320px;
+    margin: 0 auto 40px;
+    padding: 0;
+    gap: 0;
+    row-gap: 75px;
 }
 
+/* 商品リンク */
+.item-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 商品カード（固定サイズ） */
 .item-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    text-align: center;
+    width: 290px;
+    height: 320px;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    padding: 0;
 }
 
+.item-card:hover {
+    transform: translateY(-4px);
+}
+
+/* 商品画像（ピクセル厳守） */
 .item-card img {
-    width: 100%;
-    height: auto;
+    width: 290px;
+    height: 281.27px;
     object-fit: cover;
     border-radius: 4px;
 }
 
-.sold-badge {
-    display: inline-block;
-    background-color: red;
-    color: white;
-    padding: 2px 6px;
+/* 商品名 */
+.item-card p {
+    font-size: 16px;
     font-weight: bold;
-    border-radius: 4px;
-    margin-top: 4px;
-}
-
-/* 出品画面 */
-.sell-form {
-    width: 680px;
-    margin: 0 auto;
-    font-family: sans-serif;
-}
-
-/* タイトル */
-.sell-title {
-    font-size: 28px;
-    font-weight: bold;
+    width: 290px;
+    height: 30px;
+    margin: 4px 0 0;
     text-align: center;
-    height: 44px;
-    margin-bottom: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* 商品画像の枠 */
-.image-upload {
-    border: 1px solid #ccc;
-    height: 186px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 24px;
-}
-
-/* 商品画像ラベル */
-.image-label {
-    font-weight: bold;
-    color: #000;
-    font-size: 16px;
-    margin-bottom: 8px;
-}
-
-/* アップロードボタン */
-.image-button {
-    border: 1px solid red;
-    color: red;
-    background-color: white;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-/* 見出し（商品の出品・商品の詳細） */
-.section-title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #999;
-    margin-top: 40px;
-    margin-bottom: 8px;
-}
-
-/* 下線 */
-.section-divider {
-    height: 1px;
-    background-color: #ccc;
-    margin-bottom: 24px;
-}
-
-/* サブ見出し（カテゴリーなど） */
-.field-label {
-    font-size: 16px;
-    font-weight: bold;
-    color: #000;
-    margin-bottom: 8px;
-}
-
-/* カテゴリーボタン群 */
-.category-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 24px;
-}
-
-/* 個々のカテゴリボタン */
-.category-button {
-    border: 1px solid red;
-    color: red;
-    background-color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-/* チェックされたボタンにクラスを追加して切り替え */
-.category-button.selected {
-    background-color: red;
-    color: white;
-}
-
-.form-block {
-    margin-bottom: 24px;
-}
-
-.form-label {
-    font-weight: bold;
-    font-size: 16px;
-    color: #333;
-    display: block;
-    margin-bottom: 8px;
-}
-
-.condition-select {
-    width: 100%;
-    height: 48px;
-    font-size: 16px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.form-block {
-    margin-bottom: 24px;
-}
-
-.form-label {
-    font-weight: bold;
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 8px;
-    display: block;
-}
-
-.text-input {
-    width: 100%;
-    height: 45px;
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.textarea-input {
-    width: 100%;
-    height: 120px;
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
-}
-
-.price-input-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.yen-inside {
+/* soldバッジ */
+.sold-badge {
     position: absolute;
-    top: 50%;
-    left: 12px;
-    transform: translateY(-50%);
-    color: #555;
-    font-size: 16px;
-}
-
-.with-yen {
-    padding-left: 28px;
-    /* ￥の分だけスペースを確保 */
-}
-
-.submit-btn {
-    width: 100%;
+    top: 8px;
+    right: 8px;
     background-color: #e4002b;
     color: white;
-    font-size: 18px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
     font-weight: bold;
-    padding: 12px 0;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.submit-btn:hover {
-    background-color: #c80025;
-}
+@media (max-width: 768px) {
+    .item-list {
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+        padding: 0 12px;
+        gap: 16px;
+        row-gap: 40px;
+    }
 
-.error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 4px;
+    .item-card {
+        width: 100%;
+        height: auto;
+    }
+
+    .item-card img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+
+    .item-card p {
+        width: 100%;
+        font-size: 14px;
+    }
 }

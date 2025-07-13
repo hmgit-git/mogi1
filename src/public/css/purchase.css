@@ -1,0 +1,163 @@
+/* 全体コンテナ */
+.purchase-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* 左カラム */
+.item-details {
+    width: 70%;
+    flex: 1;
+    border-right: 1px solid #ccc;
+    padding-right: 40px;
+}
+
+.item-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.item-image {
+    width: 177.53px;
+    height: 177.53px;
+    object-fit: cover;
+}
+
+.item-info p {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+.item-info a {
+    display: inline-block;
+    margin-top: 8px;
+    color: #007bff;
+    text-decoration: underline;
+}
+
+/* 支払い方法セクション：左右に分割 */
+.payment-method-wrapper {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    margin-top: 24px;
+}
+
+/* 左：支払い方法のセレクト */
+.payment-method {
+    flex: 1;
+}
+
+.payment-method label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.payment-method select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 8px;
+}
+
+/* 住所 */
+.shipping-address {
+    margin-top: 24px;
+}
+
+.shipping-address p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.shipping-address a {
+    color: navy;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.purchase-summary {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.purchase-summary-info {
+    margin-bottom: 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.purchase-button {
+    width: 100%;
+    background-color: #e4002b;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.purchase-button:hover {
+    background-color: #c80025;
+}
+
+@media screen and (max-width: 768px) {
+    .purchase-container {
+        flex-direction: column;
+        padding: 24px 16px;
+        gap: 24px;
+    }
+
+    .item-details {
+        width: 100%;
+        padding-right: 0;
+        border-right: none;
+    }
+
+    .purchase-summary {
+        width: 100%;
+    }
+
+    .purchase-button {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    .item-top {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .item-image {
+        width: 100%;
+        height: auto;
+        max-width: 300px;
+    }
+
+    .item-info {
+        width: 100%;
+        text-align: center;
+    }
+
+    .payment-method-wrapper {
+        flex-direction: column;
+        gap: 16px;
+    }
+}

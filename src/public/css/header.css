@@ -1,52 +1,170 @@
 .app-header {
+    position: relative;
     background-color: #000;
     padding: 10px 20px;
+    height: 80px;
+    max-width: 1512px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
+/* ロゴ */
 .app-header img {
     height: 40px;
+    width: auto;
+    margin-right: 20px;
 }
 
+/* 検索フォーム */
 .app-header .search-form {
     flex-grow: 1;
     margin: 0 30px 0 20px;
 }
 
 .app-header .search-form input {
-    width: 80%;
+    width: 400px;
     padding: 8px 12px;
-    border: none;
     border-radius: 4px;
+    border: 1px solid #ccc;
 }
 
+/* ナビゲーション（横並び） */
 .app-header nav {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
+/* 共通リンク＆ボタンスタイル */
 .app-header nav a,
 .app-header nav button {
+    width: 135px;
+    height: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: none;
     color: white;
-    cursor: pointer;
     font: inherit;
-    padding: 0;
     text-decoration: none;
+    cursor: pointer;
+    padding: 0;
 }
 
+/* 出品ボタンだけ背景白 */
 .app-header nav .sell-button {
+    width: 100px;
+    height: 49px;
     background-color: white;
     color: black;
-    padding: 6px 12px;
-    border-radius: 4px;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: box-shadow 0.2s;
 }
 
-.main-content {
-    padding: 40px 20px;
-    background-color: white;
+.app-header nav .sell-button:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ログアウトフォーム */
+.app-header nav form {
+    margin: 0;
+    padding: 0;
+}
+
+/* 初期状態：スマホ用メニューは非表示 */
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: #fff;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    z-index: 1000;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+}
+
+/* 表示切替用クラス */
+.mobile-menu.show {
+    display: flex;
+}
+
+/* ハンバーガーボタンは初期非表示 */
+.hamburger {
+    display: none;
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 25px;
+    z-index: 1100;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .pc-menu {
+        display: none !important;
+    }
+
+    .hamburger {
+        display: block;
+        color: white;
+        top: 0;
+        outline: none;
+        user-select: none;
+    }
+
+
+    .app-header {
+        flex-direction: column;
+        align-items: stretch;
+        height: auto;
+        padding: 16px;
+        position: relative;
+    }
+
+    .app-header img {
+        height: 32px;
+        margin: 0 auto 10px;
+    }
+
+    .app-header .search-form {
+        margin: 0 0 12px;
+        width: 100%;
+    }
+
+    .app-header .search-form input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+        .mobile-menu a,
+        .mobile-menu button {
+            display: block;
+            width: 100%;
+            height: 44px;
+            font-size: 16px;
+            line-height: 44px;
+            text-align: center;
+            background: none;
+            border: none;
+            color: #333;
+            text-decoration: none;
+            margin-bottom: 8px;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: normal;
+            font-family: inherit;
+            cursor: pointer;
+        }
+    
+        .mobile-menu a:hover,
+        .mobile-menu button:hover {
+            background-color: #f2f2f2;
+        }
 }

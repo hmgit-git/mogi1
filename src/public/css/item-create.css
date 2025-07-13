@@ -1,0 +1,180 @@
+/* 全体フォーム */
+.sell-form {
+    max-width: 680px;
+    /* ← 横幅制限を明示 */
+    margin: 0 auto;
+    padding: 40px;
+    background: #f9f9f9;
+    border-radius: 10px;
+}
+
+/* 出品ボタン */
+.submit-btn {
+    background-color: #e4002b;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 680px;
+    display: block;
+    margin: 40px auto 0;
+    transition: background-color 0.2s;
+}
+
+/* タイトル */
+.sell-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+/* セクション見出し */
+.section-title {
+    font-size: 20px;
+    margin: 40px 0 16px;
+    font-weight: bold;
+}
+
+.section-divider {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 24px;
+}
+
+/* 画像アップロード */
+.image-label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.image-upload {
+    margin: 12px 0 24px;
+}
+
+.image-button {
+    width: 100%;
+    height: 44px;
+    border: 1px solid red;
+    color: red;
+    background-color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.image-button:hover {
+    background-color: #ffe5e5;
+}
+
+/* カテゴリー */
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+/* 各カテゴリーボタン */
+.category-button {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 2px solid #e4002b;
+    border-radius: 20px;
+    background-color: white;
+    color: #e4002b;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+/* 選択された状態 */
+.category-button.selected {
+    background-color: #e4002b;
+    color: white;
+    border-color: #e4002b;
+}
+
+/* 共通フォーム部品 */
+.form-block {
+    margin-bottom: 24px;
+}
+
+.form-label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.text-input,
+.textarea-input,
+.condition-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.textarea-input {
+    resize: vertical;
+}
+
+/* 販売価格入力 */
+.price-input-wrapper {
+    position: relative;
+    width: 200px;
+}
+
+.with-yen {
+    padding-left: 24px;
+}
+
+.yen-inside {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+/* エラーメッセージ */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+/* 出品ボタン */
+.submit-btn {
+    background-color: #e4002b;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: block;
+    margin: 40px auto 0;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #c80025;
+}
+
+@media (max-width: 768px) {
+    .image-button {
+        font-size: 14px;
+        height: 44px;
+    }
+}

@@ -31,12 +31,6 @@ Route::get('/items', [ItemController::class, 'index'])->name('items.index');
 
 // 商品一覧（トップ）ページ
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
-
-// 商品出品ページ
-Route::get('/items/create', function () {
-    return view('items.create');
-})->middleware(['auth'])->name('items.create');
-
 // マイページ
 Route::get('/mypage', [ProfileController::class, 'mypage'])
     ->middleware(['auth'])

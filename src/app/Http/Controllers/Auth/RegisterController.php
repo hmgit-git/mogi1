@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller; 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Carbon;
 
 class RegisterController extends Controller
 {
@@ -22,15 +23,14 @@ class RegisterController extends Controller
             'name' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            // email_verified_at は入れない！本番仕様に
+            'email_verified_at' => null,
         ]);
 
-        // ログイン状態にする
-        auth()->login($user);
-
-        // 認証メールを送信！
+        //メール送信
         event(new Registered($user));
-
-        return redirect()->route('mypage.profile');
+        //ログイン
+        auth()->login($user);
+        
+        return redirect()->route('verification.notice');
     }
 }

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Purchase;
+use App\Http\Requests\PurchaseRequest;
+use App\Http\Requests\AddressRequest;
+
 
 class PurchaseController extends Controller
 {
@@ -16,7 +19,7 @@ class PurchaseController extends Controller
         ]);
     }
 
-    public function store(Request $request, Item $item)
+    public function store(PurchaseRequest $request, Item $item)
     {
         if ($item->is_sold) {
             return redirect()->route('items.index')->with('error', 'この商品はすでに購入されています。');
@@ -51,7 +54,7 @@ class PurchaseController extends Controller
         return view('purchase.edit_address', compact('item', 'user'));
     }
 
-    public function updateAddress(Request $request, Item $item)
+    public function updateAddress(AddressRequest $request, Item $item)
     {
         session([
             'shipping_zip' => $request->zip,
@@ -59,6 +62,8 @@ class PurchaseController extends Controller
             'shipping_building' => $request->building,
         ]);
 
-        return redirect()->route('purchase.show', $item->id);
+
+        return redirect()->route('purchase.show', ['item' => $item->id])
+            ->with('message', '送付先住所を変更しました！');
     }
 }

@@ -1,83 +1,118 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/item-detail.css') }}">
+@endsection
+
 @section('content')
-<h2>{{ $item->name }}</h2>
-<img src="{{ $item->image_path }}" alt="{{ $item->name }}" width="300">
+<div class="item-detail">
 
-<p><strong>ブランド名：</strong>{{ $item->brand ?? '未設定' }}</p>
-<p><strong>カテゴリ：</strong>
-    @foreach ($item->categories as $category)
-    <span>{{ $category->name }}</span>@if(!$loop->last), @endif
-    @endforeach
-</p>
-<p><strong>価格：</strong>{{ number_format($item->price) }}円</p>
-
-<div style="display: flex; gap: 24px; align-items: center; margin-bottom: 4px;">
-    <!-- いいね -->
-    <div style="text-align: center;">
-        <button id="like-button"
-            data-liked="{{ $item->likedUsers->contains(Auth::id()) ? 'true' : 'false' }}"
-            data-url="{{ route('items.like', $item->id) }}"
-            style="border: none; background: none; font-size: 24px; cursor: pointer;">
-            <span id="like-icon" style="font-size: 24px;">
-                {{ $item->likedUsers->contains(Auth::id()) ? '★' : '☆' }}
-            </span>
-
-        </button>
-        <div id="like-count">{{ $item->likedUsers->count() }}</div>
+    <!-- 左：商品画像 -->
+    <div class="item-detail-left">
+        <img src="{{ asset($item->image_path) }}" alt="{{ $item->name }}">
     </div>
 
-    <!-- コメント -->
-    <div style="text-align: center;">
-        <div style="font-size: 24px;">💬</div>
-        <div>{{ $item->comments->count() }}</div>
+    <!-- 右：商品情報 -->
+    <div class="item-detail-right">
+        <h2 class="item-name">{{ $item->name }}</h2>
+        <p class="item-brand">ブランド名：{{ $item->brand ?? '未設定' }}</p>
+
+        <p class="item-category">カテゴリ：
+            @foreach ($item->categories as $category)
+            <span>{{ $category->name }}</span>@if(!$loop->last), @endif
+            @endforeach
+        </p>
+
+        <p class="item-price">価格：{{ number_format($item->price) }}円</p>
+
+        <div class="reaction-row">
+            <div class="reaction">
+                <button id="like-button"
+                    data-liked="{{ $item->likedUsers->contains(Auth::id()) ? 'true' : 'false' }}"
+                    data-url="{{ route('items.like', $item->id) }}">
+                    <img id="like-icon"
+                        src="{{ asset('storage/images/星アイコン8.png') }}"
+                        alt="いいね"
+                        class="{{ $item->likedUsers->contains(Auth::id()) ? 'liked' : '' }}">
+                </button>
+                <div id="like-count">{{ $item->likedUsers->count() }}</div>
+            </div>
+
+            <div class="reaction">
+                <img src="{{ asset('storage/images/ふきだしのアイコン.png') }}" alt="コメント数">
+                <div>{{ $item->comments->count() }}</div>
+            </div>
+        </div>
+
+        @if (Auth::check() && $item->user_id !== Auth::id() && !$item->is_sold)
+        <div class="purchase-btn">
+            <a href="{{ route('purchase.show', ['item' => $item->id]) }}">
+                <button class="full-width-button red">購入手続きへ</button>
+            </a>
+        </div>
+        @endif
+
+
+        <div class="item-description">
+            <h3>商品説明</h3>
+            <p>{{ $item->description }}</p>
+            <p>状態: {{ $item->condition }}</p>
+        </div>
+
+        <div class="item-meta">
+            <h3>商品情報</h3>
+            <ul>
+                <li>
+                    <strong>カテゴリー:</strong>
+                    <div class="item-categories">
+                        @foreach ($item->categories as $category)
+                        <span class="category-tag">{{ $category->name }}</span>
+                        @endforeach
+                    </div>
+                </li>
+                <li>
+                    <strong>状態:</strong> {{ $item->condition }}
+                </li>
+            </ul>
+        </div>
+
+
+
+
+        <div class="item-comments">
+            <h3>コメント（{{ $item->comments->count() }}）</h3>
+
+            @forelse ($item->comments as $comment)
+            <div class="comment">
+                <strong>{{ $comment->user->name ?? '匿名ユーザー' }}</strong><br>
+                {{ $comment->content }}
+            </div>
+            @empty
+            <p>コメントはまだありません</p>
+            @endforelse
+
+            <form action="{{ route('comments.store', $item->id) }}" method="POST" novalidate>
+                @csrf
+                <textarea name="content" rows="3" placeholder="コメントを入力">{{ old('content') }}</textarea>
+
+                @error('content')
+                <div class="error-message">{{ $message }}</div>
+                @enderror
+
+                @auth
+                <button type="submit" class="full-width-button red">コメントを送信する</button>
+                @else
+                <a href="{{ route('login') }}" class="full-width-button red" style="display: inline-block; text-align: center;">
+                    ログインしてコメントする
+                </a>
+                @endauth
+            </form>
+        </div>
+
     </div>
+
 </div>
-
-<!-- 購入ボタン -->
-<div style="margin-top: 20px;">
-    <a href="{{ route('purchase.show', ['item' => $item->id]) }}">
-        <button>
-            購入手続きへ
-        </button>
-    </a>
-</div>
-
-
-
-
-<h3>商品説明</h3>
-<p>{{ $item->description }}</p>
-
-<h3>商品情報</h3>
-<ul>
-    <li>状態: {{ $item->condition }}</li>
-</ul>
-
-<h3>コメント一覧</h3>
-@forelse ($item->comments as $comment)
-<div style="margin-bottom: 10px;">
-    <strong>{{ $comment->user->name ?? '匿名ユーザー' }}</strong><br>
-    {{ $comment->content }}
-</div>
-@empty
-<p>コメントはまだありません</p>
-@endforelse
-
-@if (Auth::check())
-<form action="{{ route('comments.store', $item->id) }}" method="POST" novalidate>
-    @csrf
-    <textarea name="content" rows="3" placeholder="コメントを入力" required maxlength="255" style="width: 100%;"></textarea>
-
-    @error('content')
-    <div style="color: red;">{{ $message }}</div>
-    @enderror
-    <button type="submit">コメントを送信する</button>
-</form>
-@else
-<p>※コメント投稿にはログインが必要です。</p>
-@endif
-
+@section('js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const likeButton = document.getElementById('like-button');
@@ -98,24 +133,25 @@
                 .then(response => {
                     if (!response.ok) {
                         if (response.status === 401) {
-                            // 未ログインならログインページへ
                             window.location.href = '/login';
                         } else {
-                            throw new Error('予期しないエラー');
+                            throw new Error('エラー発生');
                         }
                     }
                     return response.json();
                 })
                 .then(data => {
-                    icon.textContent = data.liked ? '★' : '☆';
-                    count.textContent = `${data.likes_count}`;
+                    console.log(data); // ← ここで中身を確認！
+                    icon.classList.toggle('liked', data.liked);
+                    count.textContent = data.likes_count;
                 })
                 .catch(error => {
-                    console.error('エラー:', error);
+                    console.error(error);
                     alert('通信エラーが発生しました');
                 });
         });
     });
 </script>
+@endsection
 
 @endsection

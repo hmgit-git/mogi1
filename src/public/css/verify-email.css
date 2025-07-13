@@ -33,3 +33,16 @@
     margin-top: 16px;
     color: green;
 }
+
+@media screen and (max-width: 768px) {
+    .verify-email-container {
+        margin: 40px 16px;
+        font-size: 15px;
+    }
+
+    .verify-button,
+    .resend-link {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

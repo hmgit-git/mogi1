@@ -17,7 +17,7 @@ class RegisterRequest extends FormRequest
             'username' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
-            'password_confirmation' => ['required', 'string', 'min:8', 'same:password'],
+            'password_confirmation' => ['required', 'same:password'],
         ];
     }
 
@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
             'email.unique' => 'すでに登録されているメールアドレスです。',
             'password.required' => 'パスワードを入力してください',
             'password.min' => 'パスワードは8文字以上で入力してください',
-            'password_confirmation.required' => 'パスワードを入力してください',
+            'password_confirmation.required' => '確認用パスワードを入力してください',
             'password_confirmation.same' => 'パスワードと一致しません',
         ];
     }

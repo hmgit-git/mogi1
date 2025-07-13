@@ -18,17 +18,29 @@ class ItemController extends Controller
         $keyword = $request->query('keyword');
 
         $items = Item::query()
-            ->when($tab === 'mylist' && $userId, function ($query) use ($userId) {
+            ->when($tab === 'mylist' && $userId, function ($query) use ($userId, $keyword) {
                 return $query->whereHas('likedUsers', function ($q) use ($userId) {
                     $q->where('user_id', $userId);
+                })
+                    ->when($keyword, function ($q2) use ($keyword) {
+                        return $q2->where('name', 'like', '%' . $keyword . '%');
+                    });
+            })
+            ->when($tab !== 'mylist' && $userId, function ($query) use ($userId, $keyword) {
+                return $query->where('user_id', '!=', $userId)
+                    ->when($keyword, function ($q2) use ($keyword) {
+                        return $q2->where('name', 'like', '%' . $keyword . '%');
+                    });
+            })
+            ->when(!$userId, function ($query) use ($keyword) {
+                return $query->when($keyword, function ($q) use ($keyword) {
+                    return $q->where('name', 'like', '%' . $keyword . '%');
                 });
             })
-            ->when($tab !== 'mylist' && $userId, function ($query) use ($userId) {
-                return $query->where('user_id', '!=', $userId);
-            })
-            ->when($keyword, function ($query) use ($keyword) {
+            ->when(strlen($keyword), function ($query) use ($keyword) {
                 return $query->where('name', 'like', '%' . $keyword . '%');
             })
+
             ->get();
 
         return view('items.index', [

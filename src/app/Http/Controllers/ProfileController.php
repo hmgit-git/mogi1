@@ -13,22 +13,22 @@ class ProfileController extends Controller
     public function mypage()
     {
         $user = Auth::user();
+        $tab = request()->query('tab', 'listed');
+        $listedItems = $user->items()->latest()->get();
+        $purchasedItems = $user->purchases()
+            ->with('item')
+            ->latest()
+            ->get()
+            ->pluck('item');
 
-        $listedItems = $user->items;
-
-        $user->load('purchases.item');
-        $purchasedItems = $user->purchases->map->item;
-
-        return view('profile.mypage', compact('user', 'listedItems', 'purchasedItems'));
+        return view('profile.mypage', compact('user', 'tab', 'listedItems', 'purchasedItems'));
     }
 
     public function editSetting()
     {
         $user = Auth::user();
-
         return view('profile.edit', compact('user'));
     }
-
 
     public function edit()
     {
@@ -41,18 +41,20 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         if ($request->hasFile('profile_image')) {
-            $path = $request->file('profile_image')->store('public/profile_images');
+            $path = $request->file('profile_image')->store('public/images/profiles');
             $user->profile_image = str_replace('public/', 'storage/', $path);
         }
 
-        $user->update([
-            'username' => $request->username,
-            'zip' => $request->zip,
-            'address' => $request->address,
-            'building' => $request->building,
-            'profile_image' => $user->profile_image ?? $user->getOriginal('profile_image'),
-        ]);
 
-        return redirect()->route('items.index')->with('message', 'プロフィールを更新しました！');
+
+        // 他のプロフィール情報の更新
+        $user->username = $request->username;
+        $user->zip = $request->zip;
+        $user->address = $request->address;
+        $user->building = $request->building;
+
+        $user->save();
+
+        return redirect()->route('items.index');
     }
 }

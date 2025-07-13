@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/items.css') }}">
+<link rel="stylesheet" href="{{ asset('css/item-create.css') }}">
 @endsection
 
 @section('content')
@@ -31,7 +31,7 @@
         <div class="section-divider"></div>
 
         <!-- カテゴリー -->
-        <div>
+        <div class="form-block">
             <label class="field-label">カテゴリー</label>
             <div class="category-buttons">
                 @foreach($categories as $category)

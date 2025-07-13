@@ -10,7 +10,11 @@ return new class extends Migration {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('item_id')->constrained()->onDelete('cascade');
+            $table->foreignId('item_id')->constrained()->unique();
+            $table->string('shipping_zip')->nullable();
+            $table->string('shipping_address')->nullable();
+            $table->string('shipping_building')->nullable();
+
             $table->timestamps();
         });
     }

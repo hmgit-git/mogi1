@@ -20,9 +20,12 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'username',
         'name',
-        'email',
+        'email', 
         'password',
+        'email_verified_at',
     ];
+
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -44,8 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
     public function likes()
     {
-        return $this->belongsToMany(Item::class, 'likes');
+        return $this->belongsToMany(Item::class, 'likes')->withTimestamps();
     }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);

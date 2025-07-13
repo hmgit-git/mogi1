@@ -14,17 +14,23 @@
 
         <div class="profile-image-section">
             <div class="image-preview">
-                <img src="{{ asset($user->profile_image ?? 'storage/AdobeStock_508578170.jpeg') }}" alt="プロフィール画像">
+                <img src="{{ asset($user->profile_image) }}" alt="プロフィール画像">
             </div>
             <label class="upload-button">
                 画像を選択する
                 <input type="file" name="profile_image" class="file-input-hidden">
             </label>
+            @error('profile_image')
+            <div style="color: red;">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
             <label>ユーザー名</label>
             <input type="text" name="username" value="{{ old('username', $user->username) }}">
+            @error('username')
+            <div style="color: red;">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
