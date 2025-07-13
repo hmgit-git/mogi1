@@ -17,7 +17,7 @@ MAIL_USERNAME=null
 MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=test@example.com
-MAIL_FROM_NAME="もぎたて市"
+MAIL_FROM_NAME="coachtechフリマ"
 
 
 
