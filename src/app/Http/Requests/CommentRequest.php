@@ -8,7 +8,7 @@ class CommentRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // ← false だと403になるので true に！
+        return true; 
     }
 
     public function rules(): array

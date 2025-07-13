@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Purchase;
@@ -63,7 +62,6 @@ class PurchaseController extends Controller
         ]);
 
 
-        return redirect()->route('purchase.show', ['item' => $item->id])
-            ->with('message', '送付先住所を変更しました！');
+        return redirect()->route('purchase.show', ['item' => $item->id]);
     }
 }

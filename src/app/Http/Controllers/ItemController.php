@@ -111,6 +111,6 @@ class ItemController extends Controller
         // 中間テーブルへカテゴリー登録
         $item->categories()->attach($request->categories);
 
-        return redirect()->route('items.index')->with('message', '商品を出品しました！');
+        return redirect()->route('items.index');
     }
 }

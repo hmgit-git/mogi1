@@ -8,6 +8,6 @@ class LogoutResponse implements LogoutResponseContract
 {
     public function toResponse($request)
     {
-        return redirect('/login'); // 🎯 ログアウト後にログインページへ
+        return redirect('/login'); // ログアウト後にログインページへ
     }
 }

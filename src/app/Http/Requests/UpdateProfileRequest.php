@@ -8,7 +8,7 @@ class UpdateProfileRequest extends FormRequest
 {
     public function authorize()
     {
-        return true; // 認証済みユーザーのみに制限する場合は true
+        return true; 
     }
 
     public function rules(): array

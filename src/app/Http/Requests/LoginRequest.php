@@ -10,7 +10,7 @@ class LoginRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // 認証不要ページなので true にしてOK！
+        return true; 
     }
 
     public function rules(): array

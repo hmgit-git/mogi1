@@ -83,7 +83,7 @@ class ItemSeeder extends Seeder
         ];
 
         foreach ($items as $index => $item) {
-            Item::create([
+            $createdItem = Item::create([
                 'user_id' => ($index % 3) + 1,
                 'name' => $item['name'],
                 'price' => $item['price'],
@@ -93,6 +93,11 @@ class ItemSeeder extends Seeder
                 'condition' => $item['condition'],
                 'is_sold' => $index % 4 === 0,
             ]);
+
+            $categoryIds = \App\Models\Category::pluck('id')->toArray();
+            shuffle($categoryIds);
+
+            $createdItem->categories()->attach(array_slice($categoryIds, 0, 2));
         }
     }
 }

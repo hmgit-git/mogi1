@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateProfileRequest;
-use App\Models\Item;
-use App\Models\Purchase;
 
 class ProfileController extends Controller
 {
