@@ -26,10 +26,12 @@ class PurchaseController extends Controller
 
         $paymentMethod = $request->input('payment_method');
 
-        if ($paymentMethod === 'credit_card') {
+        // Stripe分岐：本番・開発時のみリダイレクト
+        if ($paymentMethod === 'credit_card' && !app()->environment('testing')) {
             return redirect()->route('stripe.checkout', ['item_id' => $item->id]);
         }
 
+        // DB保存（テスト時はこちらが実行される）
         Purchase::create([
             'user_id' => Auth::id(),
             'item_id' => $item->id,

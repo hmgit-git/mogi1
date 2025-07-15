@@ -117,7 +117,7 @@
     background-color: #c80025;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 850px) {
     .purchase-container {
         flex-direction: column;
         padding: 24px 16px;

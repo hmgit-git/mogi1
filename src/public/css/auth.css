@@ -86,7 +86,7 @@ main {
     font-size: 14px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 850px) {
     main {
         padding: 24px 16px;
     }

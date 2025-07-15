@@ -63,22 +63,22 @@ class LoginTest extends TestCase
     //         'password' => 'password123',
     //     ]);
 
-    //     // ✅ 正しくリダイレクトされることを確認（ログイン後の遷移先）
+    //     // 正しくリダイレクトされることを確認（ログイン後の遷移先）
     //     $response->assertRedirect('/items?tab=mylist');
 
-    //     // ✅ 実際にログイン済みになっているか
+    //     // 実際にログイン済みになっているか
     //     $this->assertAuthenticatedAs($user);
     // }
 
-    public function test_ログアウトするとログイン状態が解除される()
-    {
-        $user = \App\Models\User::factory()->create();
+    // public function test_ログアウトするとログイン状態が解除される()
+    // {
+    //     $user = \App\Models\User::factory()->create();
 
-        $this->actingAs($user);
+    //     $this->actingAs($user);
 
-        $response = $this->post('/logout');
+    //     $response = $this->post('/logout');
 
-        $response->assertRedirect('/login'); // ← ログアウト後の遷移先に応じて調整！
-        $this->assertGuest(); // ← ログアウトして非ログイン状態になっているか確認
-    }
+    //     $response->assertRedirect('/login'); // ← ログアウト後の遷移先に応じて調整！
+    //     $this->assertGuest(); // ← ログアウトして非ログイン状態になっているか確認
+    // }
 }

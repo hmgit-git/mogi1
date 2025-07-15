@@ -51,11 +51,19 @@
         </div>
 
         <!-- 右カラム：購入ボタン -->
-        <!-- 右カラム：購入ボタン -->
         <div class="purchase-summary">
             <div class="purchase-summary-info">
                 <p><strong>商品代金：</strong>¥{{ number_format($item->price) }}</p>
-                <p id="payment_info"><strong>支払方法：</strong>未選択</p>
+                <p id="payment_info">
+                    <strong>支払方法：</strong>
+                    @if (session('payment_method') === 'credit_card')
+                    カード支払い
+                    @elseif (session('payment_method') === 'convenience_store')
+                    コンビニ支払い
+                    @else
+                    未選択
+                    @endif
+                </p>
             </div>
             <button type="submit" class="purchase-button">購入を確定</button>
         </div>

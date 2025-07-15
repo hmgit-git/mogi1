@@ -34,7 +34,7 @@
     color: green;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 850px) {
     .verify-email-container {
         margin: 40px 16px;
         font-size: 15px;

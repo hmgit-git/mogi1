@@ -194,7 +194,7 @@
     border-bottom: 2px solid #e60033;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
     .profile-header {
         flex-direction: column;
         height: auto;

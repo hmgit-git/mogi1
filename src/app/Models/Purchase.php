@@ -12,7 +12,11 @@ class Purchase extends Model
     protected $fillable = [
         'user_id',
         'item_id',
+        'shipping_zip',
+        'shipping_address',
+        'shipping_building',
     ];
+
     public function item()
     {
         return $this->belongsTo(\App\Models\Item::class);

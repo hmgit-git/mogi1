@@ -172,7 +172,7 @@
     background-color: #c80025;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
     .image-button {
         font-size: 14px;
         height: 44px;
