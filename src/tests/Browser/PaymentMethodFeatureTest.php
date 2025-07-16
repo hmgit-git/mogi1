@@ -11,7 +11,7 @@ class PaymentMethodFeatureTest extends TestCase
 {
     use RefreshDatabase;
 
-    // 小計画面で変更が反映される(小計画面＝右カラム)
+    // 小計画面で変更が反映される(小計画面＝右カラム) ブラウザでのテストが必要。
     public function test_payment_method_updates_summary()
     {
         $this->browse(function (Browser $browser) {
