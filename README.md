@@ -19,6 +19,45 @@ MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=test@example.com
 MAIL_FROM_NAME="coachtechフリマ"
 
+9. サンプルユーザでログインする場合は下記をご使用ください
+- サンプルユーザ１
+ユーザ名：user1@example.com
+パスワード：password
+- サンプルユーザ２
+ユーザ名：user2@example.com
+パスワード：password
+- サンプルユーザ３
+ユーザ名：user3@example.com
+パスワード：password
+
+10. テスト用DBの作成
+docker-compose exec mysql bash
+mysql -u root -p
+CREATE DATABASE demo_test;
+
+テスト用設定ファイルを作成
+cp .env .env.testing
+
+テスト用設定ファイルを変更
+APP_ENV=test
+APP_KEY=
+DB_CONNECTION=mysql_test
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=demo_test
+DB_USERNAME=root
+DB_PASSWORD=root
+
+テスト用のAPP_KEYの作成とキャッシュクリア
+docker-compose exec php bash
+php artisan key:generate --env=testing
+php artisan config:clear
+
+テスト用DBのマイグレーション
+php artisan migrate --env=testing
+
+テストの実行
+php artisan test
 
 
 ## 使用技術(実行環境)
