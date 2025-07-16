@@ -1,4 +1,4 @@
-## アプリケーション名
+## アプリケーション名：coachtechフリマ
 
 ## 環境構築
 Docker Build
@@ -67,12 +67,14 @@ php artisan migrate --env=testing
 17. テストの実行
 php artisan test
 
-18. PaymentMethodFeatureTest.php
+18. ブラウザテスト
+PaymentMethodFeatureTest.php
 Failed
 Javascriptで実装したため、ブラウザで確認
+本来、src/tests/Browserに作成するファイルですが、src/tests/Featurで最初に作成。
 Dusk installエラーのため、こちらに残します。
 
-20. サンプルユーザでログインする場合は下記をご使用ください
+19. サンプルユーザでログインする場合は下記をご使用ください
 ```
 - サンプルユーザ１
 ユーザ名：user1@example.com
