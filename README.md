@@ -71,8 +71,6 @@ php artisan test
 PaymentMethodFeatureTest.php
 Failed
 Javascriptで実装したため、ブラウザで確認
-本来、src/tests/Browserに作成するファイルですが、src/tests/Featurで最初に作成。
-Dusk installエラーのため、こちらに残します。
 
 19. サンプルユーザでログインする場合は下記をご使用ください
 ```
