@@ -55,6 +55,10 @@
 }
 
 /* 出品ボタンだけ背景白 */
+.pc-menu {
+    padding:50px;
+}
+
 .app-header nav .sell-button {
     width: 100px;
     height: 49px;
@@ -113,6 +117,7 @@
 
     .hamburger {
         display: block;
+        padding-right: 50px;
         color: white;
         top: 0;
         outline: none;

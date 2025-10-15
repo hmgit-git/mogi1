@@ -16,7 +16,6 @@ class ItemStoreRequest extends FormRequest
         return [
             'image' => 'nullable|image|max:2048',
             'categories' => 'required|array',
-            'categories.*' => 'exists:categories,id',
             'name' => 'required|string|max:255',
             'brand' => 'nullable|string|max:255',
             'description' => 'required|string|max:1000',

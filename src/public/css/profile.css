@@ -194,12 +194,172 @@
     border-bottom: 2px solid #e60033;
 }
 
+/* --- 取引中タブのバッジ --- */
+.tab-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 3px 8px;
+    font-size: 12px;
+    line-height: 1;
+    border-radius: 999px;
+    vertical-align: middle;
+}
+
+.tab-badge--red {
+    background: #e11d48;
+    color: #fff;
+}
+
+.tab-badge--gray {
+    background: #e5e7eb;
+    color: #111;
+}
+/* ===== 取引中タブ（会話グリッド） ===== */
+.conv-grid {
+    max-width: 1017px;
+    margin: 16px auto 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.conv-card {
+    position: relative;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform .06s ease;
+    text-decoration: none;
+}
+
+.conv-card:hover {
+    transform: translateY(-1px);
+}
+
+.conv-thumb {
+    width: 100%;
+    height: 160px;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.conv-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.conv-thumb .noimg {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.conv-body {
+    padding: 10px 12px;
+    display: grid;
+    gap: 6px;
+}
+
+.conv-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: #111;
+    line-height: 1.4;
+}
+
+.conv-meta {
+    font-size: 12px;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.conv-last {
+    font-size: 12px;
+    color: #666;
+}
+
+.badge-unread {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #e11d48;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius: 999px;
+}
+
+.pagination-wrap {
+    max-width: 1017px;
+    margin: 8px auto 24px;
+}
+
+/* 既存のバッジ（タブ横）も念のため */
+.tab-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 3px 8px;
+    font-size: 12px;
+    line-height: 1;
+    border-radius: 999px;
+    vertical-align: middle;
+}
+
+.tab-badge--red {
+    background: #e11d48;
+    color: #fff;
+}
+
+/* 名前+評価を縦積み */
+.namebox {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    /* 名前と★の間 */
+}
+
+/* ★表示（黄色/灰色） */
+.rating-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-header .star {
+    color: #e5e7eb;
+    font-size: 36px;
+    line-height: 1;
+}
+
+.profile-header .star.is-filled {
+    color: #fff048 !important;
+}
+
+.rating-count {
+    font-size: 13px;
+    color: #666;
+}
+
+
 @media (max-width: 850px) {
     .profile-header {
         flex-direction: column;
         height: auto;
         align-items: center;
         text-align: center;
+    }
+    .conv-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
     .profile-image {
@@ -211,10 +371,6 @@
     .profile-image img {
         width: 100px;
         height: 100px;
-    }
-
-    .username {
-        font-size: 20px;
     }
 
     .profile-btn {
@@ -241,17 +397,17 @@
         width: 100%;
         font-size: 16px;
     }
+    .tab-badge {
+        margin-left: 8px;
+    }
 
     .item-list {
         grid-template-columns: repeat(2, 1fr);
         width: 100%;
         gap: 16px;
     }
-
     .item-card {
-        width: 100%;
-        max-width: 160px;
-        height: auto;
+        position: relative;
     }
 
     .item-card img {
@@ -294,5 +450,9 @@
         padding: 12px;
         font-size: 16px;
         margin-top: 24px;
+    }
+
+    .namebox {
+        align-items: center;
     }
 }
