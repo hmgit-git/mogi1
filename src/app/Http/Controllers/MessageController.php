@@ -46,17 +46,14 @@ class MessageController extends Controller
 
     public function update(UpdateMessageRequest $req, Conversation $conversation, Message $message)
     {
-        $this->authorize('modifyMessage', $message);
+        abort_unless($message->conversation_id === $conversation->id, 404);
+        $this->authorize('update', $message);
 
         $data = ['body' => $req->body];
-
         if ($req->hasFile('image')) {
-            if ($message->image_path) {
-                Storage::disk('public')->delete($message->image_path);
-            }
+            if ($message->image_path) \Storage::disk('public')->delete($message->image_path);
             $data['image_path'] = $req->file('image')->store('chat_images', 'public');
         }
-
         $message->update($data);
 
         return back()->with('success', 'メッセージを編集しました');
@@ -64,11 +61,10 @@ class MessageController extends Controller
 
     public function destroy(Conversation $conversation, Message $message)
     {
-        $this->authorize('modifyMessage', $message);
+        abort_unless($message->conversation_id === $conversation->id, 404);
+        $this->authorize('delete', $message);
 
-        if ($message->image_path) {
-            Storage::disk('public')->delete($message->image_path);
-        }
+        if ($message->image_path) \Storage::disk('public')->delete($message->image_path);
         $message->delete();
 
         return back()->with('success', 'メッセージを削除しました');
