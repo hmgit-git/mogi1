@@ -1,19 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ItemController;
+
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StripeController;
-
-
+use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,106 +23,97 @@ use App\Http\Controllers\StripeController;
 |--------------------------------------------------------------------------
 */
 
+// -------------------- Public（誰でも） --------------------
 
-// ログイン処理
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
+// トップページ（商品一覧と同じ中身にしたい場合は index を呼ぶ）
+Route::get('/', [ItemController::class, 'index'])->name('home');
 
-//ログイン後、商品一覧ページ
+// 商品一覧（公式な一覧の名前はこっちに寄せる）
 Route::get('/items', [ItemController::class, 'index'])->name('items.index');
 
+// 商品詳細
+Route::get('/item/{id}', [ItemController::class, 'show'])->name('items.show');
 
-// 商品一覧（トップ）ページ
-Route::get('/', [ItemController::class, 'index'])->name('items.index');
-// マイページ
-Route::get('/mypage', [ProfileController::class, 'mypage'])
-    ->middleware(['auth'])
-    ->name('mypage');
-
-// 会員登録フォーム表示
+// 会員登録フォーム＆登録
 Route::get('/register', [RegisterController::class, 'show'])->name('register');
-
-// 会員登録処理
 Route::post('/register', [RegisterController::class, 'store']);
 
-// メール認証画面
-Route::get('/email/verify', function () {
-    return view('auth.verify-email'); // このBladeを用意してね
-})->middleware('auth')->name('verification.notice');
+// ログイン（POST）
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
-// メール認証リンク処理
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect('/mypage/profile');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+// Stripe（要件次第で auth を付けてもOK）
+Route::get('/stripe/checkout/{item_id}', [StripeController::class, 'checkout'])->name('stripe.checkout');
+Route::get('/stripe/success/{item_id}',  [StripeController::class, 'success'])->name('stripe.success');
+Route::get('/stripe/cancel',              [StripeController::class, 'cancel'])->name('stripe.cancel');
 
-
-// メール認証リンク再送
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-    return back()->with('message', '認証リンクを再送しました！');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-
-// プロフィール設定画面（住所など設定）を表示
-Route::get('/mypage/profile', [ProfileController::class, 'editSetting'])
-    ->middleware(['auth', 'verified'])
-    ->name('mypage.profile');
-
-
-// ログアウト後ログインページへリダイレクト（デバッグ用）
+// デバッグ：ログアウトしてログイン画面へ
 Route::get('/logout-and-login', function () {
     Auth::logout();
     return redirect('/login');
 })->name('logout-and-go-login');
 
-// 商品詳細ページ
-Route::get('/item/{id}', [ItemController::class, 'show'])->name('items.show');
 
-// いいね
-Route::post('/item/{item}/like', [LikeController::class, 'toggle'])
-    ->middleware('auth')
-    ->name('items.like');
+// -------------------- Auth（ログイン必須） --------------------
+Route::middleware('auth')->group(function () {
 
-// プロフィール編集
-Route::get('/profile/edit', [ProfileController::class, 'edit'])
-    ->middleware(['auth', 'verified'])
-    ->name('profile.edit');
+    // マイページ
+    Route::get('/mypage', [ProfileController::class, 'mypage'])->name('mypage');
 
-Route::post('/profile/edit', [ProfileController::class, 'update'])
-    ->middleware(['auth', 'verified'])
-    ->name('profile.update');
+    // いいね
+    Route::post('/item/{item}/like', [LikeController::class, 'toggle'])->name('items.like');
 
+    // コメント投稿
+    Route::post('/item/{item}/comment', [CommentController::class, 'store'])->name('comments.store');
 
-// 購入確認画面の表示（GET）
-Route::get('/purchase/{item}', [PurchaseController::class, 'show'])
-    ->middleware(['auth'])
-    ->name('purchase.show');
+    // 出品
+    Route::get('/sell',  [ItemController::class, 'create'])->name('items.create');
+    Route::post('/sell', [ItemController::class, 'store'])->name('items.store');
 
-// 購入処理の実行（POST）
-Route::post('/purchase/{item}', [PurchaseController::class, 'store'])
-    ->middleware(['auth'])
-    ->name('purchase.store');
+    // 購入（表示/実行）
+    Route::get('/purchase/{item}',  [PurchaseController::class, 'show'])->name('purchase.show');
+    Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
 
-// Sripe実行
-Route::get('/stripe/checkout/{item_id}', [StripeController::class, 'checkout'])->name('stripe.checkout');
-Route::get('/stripe/success/{item_id}', [StripeController::class, 'success'])->name('stripe.success');
-Route::get('/stripe/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
+    // 送付先変更
+    Route::get('/purchase/{item}/address',  [PurchaseController::class, 'editAddress'])->name('purchase.address.edit');
+    Route::post('/purchase/{item}/address', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
 
-// 送付先変更
-Route::get('/purchase/{item}/address', [PurchaseController::class, 'editAddress'])->name('purchase.address.edit');
-Route::post('/purchase/{item}/address', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
+    // --- Email Verification ---
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email'); // Blade 用意済み
+    })->name('verification.notice');
 
-// コメント送信機能
-Route::post('/item/{item}/comment', [CommentController::class, 'store'])
-    ->middleware(['auth'])
-    ->name('comments.store');
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect('/mypage/profile');
+    })->middleware('signed')->name('verification.verify');
 
-// 出品画面
-Route::get('/sell', [ItemController::class, 'create'])
-    ->middleware(['auth'])
-    ->name('items.create');
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', '認証リンクを再送しました！');
+    })->middleware('throttle:6,1')->name('verification.send');
 
-// 商品出品の登録処理（POST送信）
-Route::post('/sell', [ItemController::class, 'store'])
-    ->middleware(['auth'])
-    ->name('items.store');
+    // --- Verified（メール認証済み 限定エリア） ---
+    Route::middleware('verified')->group(function () {
+        // プロフィール編集
+        Route::get('/mypage/profile', [ProfileController::class, 'editSetting'])->name('mypage.profile');
+        Route::get('/profile/edit',   [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::post('/profile/edit',  [ProfileController::class, 'update'])->name('profile.update');
+    });
+
+    // --- 取引チャット（US001〜） ---
+    Route::get('/conversations', [ConversationController::class, 'index'])->name('conversations.index');
+    Route::get('/conversations/{conversation}', [ConversationController::class, 'show'])->name('conversations.show');
+    Route::post('/items/{item}/ask', [ConversationController::class, 'startFromItem'])->name('conversations.start');
+
+    Route::post('/conversations/{conversation}/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::patch('/conversations/{conversation}/messages/{message}', [MessageController::class, 'update'])->name('messages.update');
+    Route::delete('/conversations/{conversation}/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
+
+    // 取引完了（購入者）＆レビュー（US004/US005）
+    Route::post('/purchases/{purchase}/complete', [ConversationController::class, 'complete'])->name('purchases.complete');
+    Route::post('/purchases/{purchase}/reviews',  [ReviewController::class, 'store'])->name('reviews.store');
+    
+    // 完了+評価を一括で（購入者側のモーダル送信先）
+    Route::post('/purchases/{purchase}/complete-and-review', [\App\Http\Controllers\ReviewController::class, 'completeAndReview'])
+        ->name('purchases.complete_and_review');
+});

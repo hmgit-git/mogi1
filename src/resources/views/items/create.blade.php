@@ -41,17 +41,24 @@
                 </label>
                 @endforeach
             </div>
+            @error('categories')
+            <div class="error-message">{{ $message }}</div>
+            @enderror
         </div>
 
         <!-- 商品の状態 -->
         <div class="form-block">
             <label class="form-label">商品の状態</label><br>
             <select name="condition" class="condition-select">
+
                 <option value="">選択してください</option>
                 @foreach ($conditions as $condition)
                 <option value="{{ $condition }}">{{ $condition }}</option>
                 @endforeach
             </select>
+            @error('condition')
+            <div class="error-message">{{ $message }}</div>
+            @enderror
         </div>
 
 
