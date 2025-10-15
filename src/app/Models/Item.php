@@ -47,4 +47,8 @@ class Item extends Model
         }
         return asset('storage/' . $p);
     }
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 }
