@@ -84,6 +84,29 @@ Javascriptで実装したため、ブラウザで確認
 ユーザ名：user3@example.com
 パスワード：password
 ```
+20.　ダミーデータ（取引デモ一括投入）
+php artisan db:seed --class=Database\\Seeders\\DemoTradeSeeder
+
+21.　Stripe切り替え方針
+config/services.php
+'stripe' => [
+    'enabled' => env('STRIPE_ENABLED', false),
+    'key'     => env('STRIPE_KEY'),
+    'secret'  => env('STRIPE_SECRET'),
+],
+
+PurchaseController.php @store
+if (config('services.stripe.enabled') && in_array($paymentMethod, ['credit_card', 'convenience_store'], true)) {
+    return redirect()->route('stripe.checkout', ['item_id' => $item->id]);
+}
+
+StripeController.php @success
+Stripe決済成功時に Purchase 作成 → is_sold 更新 → Conversation 作成 → チャットへ。
+
+.env.example に以下を追加済み
+STRIPE_ENABLED=false
+STRIPE_KEY=
+STRIPE_SECRET=
 
 ## 使用技術(実行環境)
 1. PHP 7.4.9
