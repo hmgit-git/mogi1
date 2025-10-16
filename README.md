@@ -108,6 +108,10 @@ STRIPE_ENABLED=false
 STRIPE_KEY=
 STRIPE_SECRET=
 
+22.　取引画面への遷移について
+商品購入後、取引画面（チャットできる画面）へ遷移します。「php artisan db:seed --class=Database\\Seeders\\DemoTradeSeeder」でダミーデータを入れると、ダミーの取引が生成されるが、支払は未の状態のため、購入した商品タブに表示されても【sold】にはなっておりません。
+
+
 ## 使用技術(実行環境)
 1. PHP 7.4.9
 2. Laravel 8.83.8
