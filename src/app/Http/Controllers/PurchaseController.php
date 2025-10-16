@@ -28,10 +28,12 @@ class PurchaseController extends Controller
 
         $paymentMethod = $request->input('payment_method');
 
-        // クレカ / コンビニ払いは Stripe 側で購入確定 → success 側で同様の処理を入れること（※下にメモ）
-        if (in_array($paymentMethod, ['credit_card', 'convenience_store']) && !app()->environment('testing')) {
+        // クレカ / コンビニ払いは Stripe 側で購入確定
+        // Stripe使うのは、環境で有効化されていて、かつ決済方法が該当するときだけ
+        if (config('services.stripe.enabled') && in_array($paymentMethod, ['credit_card', 'convenience_store'], true)) {
             return redirect()->route('stripe.checkout', ['item_id' => $item->id]);
         }
+
 
         // 1) 購入レコード作成
         $purchase = Purchase::create([
